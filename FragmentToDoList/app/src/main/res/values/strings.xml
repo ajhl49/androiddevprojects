@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">FragmentToDoList</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="addItemHint">Add new ToDo item...</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="pick_time">Pick Time</string>
+
+    <string name="pick_date">Pick Date</string>
+</resources>
