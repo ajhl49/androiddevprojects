@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">MidtermToDo</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="time_text"></string>
+    <string name="title_box_hint">My new ToDo Item</string>
+    <string name="todo_box_hint">ToDo description here...</string>
+    <string name="item_priority_label">Item Priority</string>
+    <string name="date_time_text_label"><![CDATA[Set Date & Time Due]]></string>
+    <string name="set_todo_item_button">Create ToDo Item!</string>
+    <string name="item_status_text">Item Status</string>
+    <string name="date_due">Date Due</string>
+    <string name="placeholder_text">Placeholder Text</string>
 </resources>

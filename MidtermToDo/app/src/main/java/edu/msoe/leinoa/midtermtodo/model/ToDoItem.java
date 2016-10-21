@@ -37,31 +37,69 @@ public class ToDoItem  {
         this(id, title, description, status, priority, dateDue, Calendar.getInstance());
     }
 
+    public ToDoItem() {
+        this(0L, null, null, ToDoStatus.READY,
+                ToDoPriority.PRIORITY_LOW, null, null);
+    }
+
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getTitle() {
         return title;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public ToDoStatus getStatus() {
         return status;
     }
 
+    public void setStatus(ToDoStatus status) {
+        this.status = status;
+    }
+
     public ToDoPriority getPriority() {
         return priority;
+    }
+
+    public void setPriority(ToDoPriority priority) {
+        this.priority = priority;
     }
 
     public Calendar getDateDue() {
         return dateDue;
     }
 
+    public void setDateDue(Calendar dateDue) {
+        this.dateDue = dateDue;
+    }
+
     public Calendar getDateCreated() {
         return dateCreated;
+    }
+
+    public void setDateCreated(Calendar dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    @Override
+    public String toString() {
+        return this.title;
     }
 }

@@ -15,6 +15,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".NewToDoActivity"
+            android:parentActivityName=".ToDoActivity" />
+        <activity android:name=".ToDoViewActivity"
+            android:parentActivityName=".ToDoActivity"></activity>
     </application>
 
 </manifest>
