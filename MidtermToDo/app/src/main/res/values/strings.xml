@@ -13,4 +13,16 @@
     <string name="item_status_text">Item Status</string>
     <string name="date_due">Date Due</string>
     <string name="placeholder_text">Placeholder Text</string>
+    <string name="sort_by_text">Sort By</string>
+    <string name="order">Order</string>
+
+    <string-array name="sort_by_array">
+        <item>Date</item>
+        <item>Priority</item>
+        <item>Status</item>
+    </string-array>
+    <string-array name="order_by_array">
+        <item>Ascending</item>
+        <item>Descending</item>
+    </string-array>
 </resources>

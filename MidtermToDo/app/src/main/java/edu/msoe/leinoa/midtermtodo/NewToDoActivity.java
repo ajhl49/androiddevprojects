@@ -1,5 +1,6 @@
 package edu.msoe.leinoa.midtermtodo;
 
+import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -19,6 +20,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -80,13 +82,28 @@ public class NewToDoActivity extends AppCompatActivity {
         ToDoItem tdi = new ToDoItem();
 
         tdi.setTitle(((EditText)findViewById(R.id.title_box_text)).getText().toString());
+        if (tdi.getTitle() == null || tdi.getTitle().trim().equals("")) {
+            alertUserBadForm("Need Title for ToDo");
+            return;
+        }
         tdi.setDescription(((EditText)findViewById(R.id.description_box_text)).getText().toString());
+        if (tdi.getDescription() == null) {
+            //ToDo items can have empty descriptions
+            tdi.setDescription("");
+        }
 
         Spinner spinner = (Spinner) findViewById(R.id.priority_spinner);
         tdi.setPriority((ToDoPriority)spinner.getSelectedItem());
 
         tdi.setStatus(ToDoStatus.READY);
 
+        if (dateCalendar == null) {
+            alertUserBadForm("Please Select Date");
+            return;
+        } else if (timeCalendar == null) {
+            alertUserBadForm("Please Select Time");
+            return;
+        }
         Calendar dateDue = Calendar.getInstance();
         dateDue.clear();
         dateDue.set(dateCalendar.get(Calendar.YEAR),
@@ -99,14 +116,9 @@ public class NewToDoActivity extends AppCompatActivity {
         tdi.setDateCreated(Calendar.getInstance());
 
         long rowid = dbAdapter.addToDoItem(tdi).getId();
+        tdi.setId(rowid);
 
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_stat_action_alarm)
-                .setContentTitle("ToDo item due date reached!")
-                .setContentText(tdi.getTitle());
-        Intent notificationIntent = new Intent(this, ToDoViewActivity.class);
-
+        setAlarm(tdi);
 
         Intent intent = new Intent();
         intent.putExtra("newId", rowid);
@@ -130,5 +142,19 @@ public class NewToDoActivity extends AppCompatActivity {
         Intent intent = new Intent();
         setResult(RESULT_CANCELED, intent);
         finish();
+    }
+
+    private void setAlarm(ToDoItem tdi) {
+        Intent intent = new Intent(this, NotificationAlarmReceiver.class);
+        intent.putExtra("todo_id", tdi.getId());
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, tdi.getDateDue().getTimeInMillis(), pendingIntent);
+    }
+
+    private void alertUserBadForm(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 }

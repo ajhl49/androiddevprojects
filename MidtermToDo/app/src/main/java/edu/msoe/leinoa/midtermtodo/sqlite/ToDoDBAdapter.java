@@ -107,6 +107,16 @@ public class ToDoDBAdapter {
         db.delete(TODO_TABLE, "id = " + id, null);
     }
 
+    public boolean hasItemById(long id) {
+        Cursor cursor = db.rawQuery("select * from " + TODO_TABLE + " where id = " + id, null);
+        if (cursor.getCount() <= 0) {
+            cursor.close();
+            return false;
+        }
+        cursor.close();
+        return true;
+    }
+
     public ToDoItem getItemById(long id) {
         Cursor cursor = db.query(TODO_TABLE, allColumns, "id = ?", new String[] {String.valueOf(id)},
                 null, null, null, null);

@@ -2,6 +2,7 @@ package edu.msoe.leinoa.midtermtodo;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -31,12 +32,17 @@ public class ToDoViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_to_do_view);
 
         Intent startIntent = getIntent();
+        long rowId = startIntent.getLongExtra("todo_id", -1);
+
+        if (!ToDoDBAdapter.getAdapter(this).hasItemById(rowId)) {
+            Intent intent = new Intent();
+            setResult(RESULT_CANCELED, intent);
+            finish();
+        }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("ToDo Item");
 
-        long rowId = startIntent.getLongExtra("todo_id", -1);
-        Log.wtf("todo_id not passed!", "todo_id was not found in the intent");
         tdi = ToDoDBAdapter.getAdapter(this).getItemById(rowId);
 
         final TextView titleText = (TextView)findViewById(R.id.todo_view_title);
@@ -133,5 +139,25 @@ public class ToDoViewActivity extends AppCompatActivity {
                 //Do nothing, we don't reset to null
             }
         });
+    }
+
+    public void deleteToDoItem(View view) {
+        ToDoDBAdapter.getAdapter(this).deleteItem(tdi);
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    public void emailToOther(View view) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss z");
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                "mailto", "", null));
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {});
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, tdi.getTitle());
+        emailIntent.putExtra(Intent.EXTRA_TEXT, tdi.getDescription() + "\n" +
+        "Date Due " + dateFormat.format(tdi.getDateDue().getTime()) + "\n" +
+        "Date Created " + dateFormat.format(tdi.getDateCreated().getTime()));
+
+        startActivity(Intent.createChooser(emailIntent, "Send email..."));
     }
 }

@@ -20,6 +20,8 @@
             android:parentActivityName=".ToDoActivity" />
         <activity android:name=".ToDoViewActivity"
             android:parentActivityName=".ToDoActivity"></activity>
+
+        <receiver android:process=":remote" android:name=".NotificationAlarmReceiver" />
     </application>
 
 </manifest>
