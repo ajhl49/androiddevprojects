@@ -1,4 +1,4 @@
-package sqlite;
+package edu.msoe.leinoa.androideventer.sqlite;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
