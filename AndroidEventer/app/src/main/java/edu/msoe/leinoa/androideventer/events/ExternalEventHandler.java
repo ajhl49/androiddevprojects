@@ -1,5 +1,6 @@
 package edu.msoe.leinoa.androideventer.events;
 
+import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -29,7 +30,7 @@ public class ExternalEventHandler {
         registrar = EventerRegistrar.getEventerRegistrar();
     }
 
-    public void handleExternalEvents(List<? extends ExternalEventInterface> externalEvents) {
+    public void handleExternalEvents(Context context, List<? extends ExternalEventInterface> externalEvents) {
         if (externalEvents.size() > 0) {
             Log.w("ExternalEventHandler", "Events gathered from server!");
         }
@@ -38,7 +39,7 @@ public class ExternalEventHandler {
             Log.w("ExternalEventHandler", externalEvent.getEventName() + " / " + externalEvent.getEventUUID());
             List<BoundEvent> boundEvents = registrar.getAllMatchingBound(externalEvent);
             for (BoundEvent boundEvent : boundEvents) {
-                boundEvent.execute();
+                boundEvent.execute(context);
             }
         }
     }

@@ -1,5 +1,6 @@
 package edu.msoe.leinoa.androideventer.networking;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Message;
@@ -29,13 +30,15 @@ public class ServerCommunicator {
 
     private String serverUrl = null;
     private ExternalEventHandler handler;
+    private Context context;
 
     public ServerCommunicator(String baseUrl, ExternalEventHandler handler) {
         serverUrl = baseUrl;
         this.handler = handler;
     }
 
-    public void makeUpdates() {
+    public void makeUpdates(Context context) {
+        this.context = context;
         new AccessWebServiceTask().execute();
     }
 
@@ -84,7 +87,7 @@ public class ServerCommunicator {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            handler.handleExternalEvents(externalEvents);
+            handler.handleExternalEvents(context, externalEvents);
             return (externalEvents != null) ? externalEvents.size() : 0;
         }
     }

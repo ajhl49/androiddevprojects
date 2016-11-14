@@ -1,5 +1,7 @@
 package edu.msoe.leinoa.androideventer.model;
 
+import android.content.Context;
+
 import java.util.Calendar;
 
 import edu.msoe.leinoa.androideventer.model.actions.Action;
@@ -85,8 +87,8 @@ public class BoundEvent {
         this.dateCreated = dateCreated;
     }
 
-    public void execute() {
-        this.action.execute();
+    public void execute(Context context) {
+        this.action.execute(context);
     }
 
     @Override

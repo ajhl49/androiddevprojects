@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.UUID;
@@ -62,6 +63,14 @@ public class EventsAddActivity extends AppCompatActivity {
         byte[] eventData = new byte[0];
         Calendar dateCreated = Calendar.getInstance();
 
+        if (title == null || title.trim().equals("")) {
+            Toast.makeText(this, "Needs title", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (description == null || description.trim().equals("")) {
+            Toast.makeText(this, "Needs description", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         BoundEvent boundEvent = new BoundEvent(uuid, title, description, eventData, trigger,
                 action, dateCreated);
         EventerDBAdapter.getDbAdapter(this).addBoundEvent(boundEvent);
@@ -73,6 +82,7 @@ public class EventsAddActivity extends AppCompatActivity {
     }
 
     public void btn_cancelEventer(View view) {
+        Toast.makeText(this, "Creation cancelled", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent();
         setResult(RESULT_CANCELED, intent);
         finish();

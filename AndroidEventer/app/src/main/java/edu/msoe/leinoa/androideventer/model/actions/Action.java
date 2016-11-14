@@ -1,5 +1,7 @@
 package edu.msoe.leinoa.androideventer.model.actions;
 
+import android.content.Context;
+
 import java.util.Calendar;
 
 /**
@@ -72,7 +74,7 @@ public abstract class Action {
         this.dateCreated = dateCreated;
     }
 
-    public abstract void execute();
+    public abstract void execute(Context context);
 
     @Override
     public String toString() {

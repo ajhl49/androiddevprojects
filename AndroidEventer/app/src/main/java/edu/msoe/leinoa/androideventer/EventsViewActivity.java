@@ -7,6 +7,8 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.text.SimpleDateFormat;
+
 import edu.msoe.leinoa.androideventer.model.BoundEvent;
 import edu.msoe.leinoa.androideventer.sqlite.EventerDBAdapter;
 
@@ -33,6 +35,11 @@ public class EventsViewActivity extends AppCompatActivity {
 
         title.setText(boundEvent.getTitle());
         description.setText(boundEvent.getDescription());
-        //dateCreated.setText(boundEvent.getDateCreated().getTime().);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss z");
+        dateCreated.setText(dateFormat.format(boundEvent.getDateCreated().getTime()));
+
+        actionText.setText(boundEvent.getAction().toString());
+        triggerText.setText(boundEvent.getTrigger().toString());
     }
 }
