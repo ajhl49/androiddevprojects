@@ -86,6 +86,11 @@ public class BoundEvent {
     }
 
     public void execute() {
+        this.action.execute();
+    }
 
+    @Override
+    public String toString() {
+        return this.title;
     }
 }

@@ -77,4 +77,9 @@ public class Trigger {
     public boolean isTriggered(ExternalEventInterface externalEvent) {
         return false;
     }
+
+    @Override
+    public String toString() {
+        return this.triggerType + ": " + this.title;
+    }
 }

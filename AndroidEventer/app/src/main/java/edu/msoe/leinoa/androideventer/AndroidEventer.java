@@ -5,7 +5,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import java.util.Calendar;
+
 import edu.msoe.leinoa.androideventer.events.EventerRegistrar;
+import edu.msoe.leinoa.androideventer.model.BoundEvent;
+import edu.msoe.leinoa.androideventer.model.actions.NotificationAction;
+import edu.msoe.leinoa.androideventer.model.triggers.Trigger;
 import edu.msoe.leinoa.androideventer.networking.ServerCommunicatorService;
 import edu.msoe.leinoa.androideventer.sqlite.EventerDBAdapter;
 
@@ -37,6 +42,18 @@ public class AndroidEventer extends AppCompatActivity {
 
         registrar = EventerRegistrar.getEventerRegistrar();
         registrar.updateFromDatabase(this);
+
+        //TEMP preload stuff
+        Trigger serverTrigger = new Trigger("487aedb9-dc84-46d9-b9a6-dd30f5fb050f", "ServerTrigger",
+                "Server based trigger", "Trigger", new byte[0], Calendar.getInstance());
+        NotificationAction notificationAction = new NotificationAction("487aedb9-dc84-46d9-b9a6-dd30f5fb050f",
+                "NotificationAction", "Notification based action", "NotificationAction", new byte[0],
+                Calendar.getInstance());
+        BoundEvent testBound = new BoundEvent("", "TestBound", "Test bound", new byte[0], serverTrigger,
+                notificationAction, Calendar.getInstance());
+        registrar.addAction(notificationAction);
+        registrar.addTrigger(serverTrigger);
+        //registrar.addBoundEvent(testBound);
 
         this.startService(new Intent(this, ServerCommunicatorService.class));
     }

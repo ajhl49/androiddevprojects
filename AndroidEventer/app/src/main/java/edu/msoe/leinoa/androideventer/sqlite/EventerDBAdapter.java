@@ -192,6 +192,17 @@ public class EventerDBAdapter {
         return actions;
     }
 
+    public BoundEvent getBoundEventByUuid(String uuid) {
+        Cursor cursor = db.query(EventerDBOpenHelper.BOUND_EVENT_TABLE_NAME, EventerDBOpenHelper.BOUND_EVENT_TABLE_COLUMNS,
+                "uuid = ?", new String[] {"\"" + uuid + "\""}, null, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        return cursorToBoundEvent(cursor);
+    }
+
     public List<Trigger> getAllTriggers() {
         List<Trigger> triggers = new ArrayList<>();
 
@@ -219,7 +230,7 @@ public class EventerDBAdapter {
         dateCreated.setTimeInMillis(cursor.getLong(5));
 
         Action action = null;
-        if (actionType.equals("notification")) {
+        if (actionType.equals("NotificationAction")) {
             action = new NotificationAction(uuid, title, description, actionType, actionData, dateCreated);
         }
         return action;

@@ -3,6 +3,7 @@
     package="edu.msoe.leinoa.androideventer">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -20,10 +21,6 @@
         <activity
             android:name=".TriggersActivity"
             android:parentActivityName=".AndroidEventer" />
-        <activity android:name=".TriggersViewActivity"
-            android:parentActivityName=".TriggersActivity"/>
-        <activity android:name=".TriggersAddActivity"
-            android:parentActivityName=".TriggersActivity"/>
         <activity
             android:name=".EventsActivity"
             android:parentActivityName=".AndroidEventer" />
@@ -34,10 +31,6 @@
         <activity
             android:name=".ActionsActivity"
             android:parentActivityName=".AndroidEventer" />
-        <activity android:name=".ActionsViewActivity"
-            android:parentActivityName=".ActionsActivity"/>
-        <activity android:name=".ActionsAddActivity"
-            android:parentActivityName=".ActionsActivity"/>
 
         <receiver android:name=".AutoStart">
             <intent-filter>

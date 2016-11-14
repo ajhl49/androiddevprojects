@@ -73,4 +73,9 @@ public abstract class Action {
     }
 
     public abstract void execute();
+
+    @Override
+    public String toString() {
+        return this.actionType + ": " + this.title;
+    }
 }

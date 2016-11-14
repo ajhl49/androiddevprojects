@@ -1,10 +1,13 @@
 package edu.msoe.leinoa.androideventer.events;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import edu.msoe.leinoa.androideventer.model.BoundEvent;
 import edu.msoe.leinoa.androideventer.model.ExternalEventInterface;
@@ -31,6 +34,8 @@ public class EventerRegistrar {
     private HashMap<String, Action> registeredActions;
     private HashMap<String, Trigger> registeredTriggers;
 
+    private EventerDBAdapter dbAdapter;
+
     private EventerRegistrar() {
         registeredEvents = new HashMap<>();
         registeredActions = new HashMap<>();
@@ -38,14 +43,24 @@ public class EventerRegistrar {
     }
 
     public List<BoundEvent> getAllMatchingBound(ExternalEventInterface externalEvent) {
-        return null;
+        List<BoundEvent> allMatching = new ArrayList<>();
+        Iterator<Map.Entry<String, BoundEvent>> it = registeredEvents.entrySet().iterator();
+        while(it.hasNext()) {
+            Map.Entry<String, BoundEvent> pair = it.next();
+            BoundEvent boundEvent = pair.getValue();
+            if (boundEvent.getTrigger().getUuid().equals(externalEvent.getEventUUID())) {
+                allMatching.add(boundEvent);
+            }
+        }
+        return allMatching;
     }
 
     public void updateFromDatabase(Context context) {
-        EventerDBAdapter dbAdapter = EventerDBAdapter.getDbAdapter(context);
+        dbAdapter = EventerDBAdapter.getDbAdapter(context);
 
         List<Action> actions = dbAdapter.getAllActions();
         for (Action action : actions) {
+            Log.w("ActionStuff", action.getUuid());
             registeredActions.put(action.getUuid(), action);
         }
 
@@ -64,6 +79,11 @@ public class EventerRegistrar {
         if (boundEvent == null) {
             throw new NullPointerException("Bound events cannot be null!");
         }
+        if (registeredEvents.containsKey(boundEvent.getUuid())) {
+            dbAdapter.updateBoundEvent(boundEvent);
+        } else {
+            dbAdapter.addBoundEvent(boundEvent);
+        }
         registeredEvents.put(boundEvent.getUuid(), boundEvent);
     }
 
@@ -71,12 +91,22 @@ public class EventerRegistrar {
         if (action == null) {
             throw new NullPointerException("Actions cannot be null!");
         }
+        if (registeredActions.containsKey(action.getUuid())) {
+            dbAdapter.updateAction(action);
+        } else {
+            dbAdapter.addAction(action);
+        }
         registeredActions.put(action.getUuid(), action);
     }
 
     public void addTrigger(Trigger trigger) {
         if (trigger == null) {
             throw new NullPointerException("Triggers cannot be null!");
+        }
+        if (registeredTriggers.containsKey(trigger.getUuid())) {
+            dbAdapter.updateTrigger(trigger);
+        } else {
+            dbAdapter.addTrigger(trigger);
         }
         registeredTriggers.put(trigger.getUuid(), trigger);
     }

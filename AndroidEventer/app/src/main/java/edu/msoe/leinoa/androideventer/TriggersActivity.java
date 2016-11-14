@@ -34,33 +34,13 @@ public class TriggersActivity extends AppCompatActivity {
         triggerArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, triggerList);
         triggerListView.setAdapter(triggerArrayAdapter);
 
-        triggerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(TriggersActivity.this, TriggersViewActivity.class);
-                intent.putExtra("trigger_uuid", triggerList.get(position).getUuid());
-                startActivityForResult(intent, AndroidEventer.TRIGGER_DETAIL_VIEW_REQUEST);
-            }
-        });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch(requestCode) {
-            case AndroidEventer.TRIGGER_ADD_REQUEST: {
-                break;
-            }
-            case AndroidEventer.TRIGGER_DETAIL_VIEW_REQUEST: {
-                break;
-            }
-            default: {
-                break;
-            }
-        }
-    }
-
-    public void addTrigger(View view) {
-        Intent intent = new Intent(this, TriggersAddActivity.class);
-        startActivityForResult(intent, AndroidEventer.TRIGGER_ADD_REQUEST);
+//        triggerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Intent intent = new Intent(TriggersActivity.this, TriggersViewActivity.class);
+//                intent.putExtra("trigger_uuid", triggerList.get(position).getUuid());
+//                startActivityForResult(intent, AndroidEventer.TRIGGER_DETAIL_VIEW_REQUEST);
+//            }
+//        });
     }
 }

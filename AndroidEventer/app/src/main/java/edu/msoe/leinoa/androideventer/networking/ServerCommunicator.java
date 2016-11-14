@@ -1,5 +1,7 @@
 package edu.msoe.leinoa.androideventer.networking;
 
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Message;
 import android.util.JsonReader;
 import android.util.Log;
@@ -14,6 +16,7 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.msoe.leinoa.androideventer.events.ExternalEventHandler;
 import edu.msoe.leinoa.androideventer.events.ServerExternalEvent;
 
 /**
@@ -25,12 +28,18 @@ public class ServerCommunicator {
     public static final String URL_ALL_EVENTS = "events";
 
     private String serverUrl = null;
+    private ExternalEventHandler handler;
 
-    public ServerCommunicator(String baseUrl) {
+    public ServerCommunicator(String baseUrl, ExternalEventHandler handler) {
         serverUrl = baseUrl;
+        this.handler = handler;
     }
 
-    public List<ServerExternalEvent> getAllEvents() throws IOException {
+    public void makeUpdates() {
+        new AccessWebServiceTask().execute();
+    }
+
+    private List<ServerExternalEvent> getAllEvents() throws IOException {
         InputStream in = openHttpConnection(serverUrl + "/" + URL_ALL_EVENTS);
         JsonReader jsonReader = new JsonReader(new InputStreamReader(in));
         List<ServerExternalEvent> events = null;
@@ -63,6 +72,21 @@ public class ServerCommunicator {
         }
 
         return events;
+    }
+
+    private class AccessWebServiceTask extends AsyncTask<String, ServerExternalEvent, Integer> {
+
+        @Override
+        protected Integer doInBackground(String... params) {
+            List<ServerExternalEvent> externalEvents = null;
+            try {
+                externalEvents = getAllEvents();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            handler.handleExternalEvents(externalEvents);
+            return (externalEvents != null) ? externalEvents.size() : 0;
+        }
     }
 
     private List<ServerExternalEvent> readEvents(JsonReader reader) throws IOException {
@@ -119,8 +143,8 @@ public class ServerCommunicator {
                 in = httpConn.getInputStream();
             }
         } catch (Exception ex) {
-            Log.d("ServerCommunicator", ex.getLocalizedMessage());
-            throw new IOException("Error connecting");
+            Log.d("ServerCommunicator", "General failure on connection open", ex);
+            throw new IOException("Error connecting", ex);
         }
 
         return in;

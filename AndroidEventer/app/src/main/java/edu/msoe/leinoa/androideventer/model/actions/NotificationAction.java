@@ -1,5 +1,7 @@
 package edu.msoe.leinoa.androideventer.model.actions;
 
+import android.util.Log;
+
 import java.util.Calendar;
 
 /**
@@ -15,5 +17,6 @@ public class NotificationAction extends Action {
     public void execute() {
         //The action data will contain the message to display in the notification, so the byte array
         //must be converted to a string. Strings may contain extra formatting
+        Log.e("NotificationAction", "Test notification action");
     }
 }

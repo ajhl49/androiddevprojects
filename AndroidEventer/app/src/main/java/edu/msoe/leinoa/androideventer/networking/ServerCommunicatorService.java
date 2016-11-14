@@ -26,7 +26,6 @@ public class ServerCommunicatorService extends Service {
     private boolean makeNewAlarm = true;
 
     public void cancelAnyAlarms() {
-        Toast.makeText(this, "Cancel all alarms", Toast.LENGTH_SHORT).show();
         AlarmManager alarm = (AlarmManager)getSystemService(ALARM_SERVICE);
         alarm.cancel(PendingIntent.getService(this, 50, new Intent(this, ServerCommunicatorService.class), 0));
     }
@@ -40,17 +39,10 @@ public class ServerCommunicatorService extends Service {
 
         synchronized (ServerCommunicator.class) {
             if (serverCommunicator == null) {
-                serverCommunicator = new ServerCommunicator("localhost:8080/");
+                serverCommunicator = new ServerCommunicator("http://192.168.1.4:3000", ExternalEventHandler.getHandler());
             }
         }
-        ExternalEventHandler externalEventHandler = ExternalEventHandler.getHandler();
-        List<ServerExternalEvent> externalEvents = null;
-        try {
-            externalEvents = serverCommunicator.getAllEvents();
-        } catch (IOException e) {
-            Log.e("ServerCommunicatorSrv", "Error on server read", e);
-        }
-        externalEventHandler.handleExternalEvents(externalEvents);
+        serverCommunicator.makeUpdates();
 
         return super.onStartCommand(intent, flags, startId);
     }
