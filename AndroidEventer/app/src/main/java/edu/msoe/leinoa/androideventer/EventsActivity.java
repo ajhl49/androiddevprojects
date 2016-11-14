@@ -48,6 +48,14 @@ public class EventsActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch(requestCode) {
             case AndroidEventer.EVENT_ADD_REQUEST: {
+                if (resultCode == RESULT_OK) {
+                    String uuid = data.getStringExtra("event_uuid");
+                    if (uuid != null) {
+                        BoundEvent boundEvent = EventerDBAdapter.getDbAdapter(this).getBoundEventByUuid(uuid);
+                        eventList.add(boundEvent);
+                        eventArrayAdapter.notifyDataSetChanged();
+                    }
+                }
                 break;
             }
             case AndroidEventer.EVENT_DETAIL_VIEW_REQUEST: {

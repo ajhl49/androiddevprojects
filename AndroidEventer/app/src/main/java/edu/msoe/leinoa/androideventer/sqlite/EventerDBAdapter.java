@@ -194,7 +194,7 @@ public class EventerDBAdapter {
 
     public BoundEvent getBoundEventByUuid(String uuid) {
         Cursor cursor = db.query(EventerDBOpenHelper.BOUND_EVENT_TABLE_NAME, EventerDBOpenHelper.BOUND_EVENT_TABLE_COLUMNS,
-                "uuid = ?", new String[] {"\"" + uuid + "\""}, null, null, null, null);
+                "uuid = ?", new String[] {uuid}, null, null, null, null);
 
         if (cursor != null) {
             cursor.moveToFirst();
