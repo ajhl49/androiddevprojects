@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.msoe.leinoa.androideventer">
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -15,6 +17,35 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".TriggersActivity"
+            android:parentActivityName=".AndroidEventer" />
+        <activity android:name=".TriggersViewActivity"
+            android:parentActivityName=".TriggersActivity"/>
+        <activity android:name=".TriggersAddActivity"
+            android:parentActivityName=".TriggersActivity"/>
+        <activity
+            android:name=".EventsActivity"
+            android:parentActivityName=".AndroidEventer" />
+        <activity android:name=".EventsViewActivity"
+            android:parentActivityName=".EventsActivity"/>
+        <activity android:name=".EventsAddActivity"
+            android:parentActivityName=".EventsActivity"/>
+        <activity
+            android:name=".ActionsActivity"
+            android:parentActivityName=".AndroidEventer" />
+        <activity android:name=".ActionsViewActivity"
+            android:parentActivityName=".ActionsActivity"/>
+        <activity android:name=".ActionsAddActivity"
+            android:parentActivityName=".ActionsActivity"/>
+
+        <receiver android:name=".AutoStart">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".networking.ServerCommunicatorService"/>
     </application>
 
 </manifest>

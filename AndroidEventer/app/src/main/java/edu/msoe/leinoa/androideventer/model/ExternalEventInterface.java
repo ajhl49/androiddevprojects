@@ -8,5 +8,5 @@ public interface ExternalEventInterface {
 
     public String getEventName();
 
-    public String getEventIdentifier();
+    public String getEventUUID();
 }

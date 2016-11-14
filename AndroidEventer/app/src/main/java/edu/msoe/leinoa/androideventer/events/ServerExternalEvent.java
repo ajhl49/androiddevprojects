@@ -13,11 +13,11 @@ import edu.msoe.leinoa.androideventer.model.ExternalEventInterface;
 public class ServerExternalEvent implements ExternalEventInterface {
 
     private String eventName;
-    private String eventIdentifier;
+    private String eventUUID;
 
-    public ServerExternalEvent(String eventName, String eventIdentifier) {
+    public ServerExternalEvent(String eventName, String eventUUID) {
         this.eventName = eventName;
-        this.eventIdentifier = eventIdentifier;
+        this.eventUUID = eventUUID;
     }
 
     @Override
@@ -26,7 +26,7 @@ public class ServerExternalEvent implements ExternalEventInterface {
     }
 
     @Override
-    public String getEventIdentifier() {
-        return eventIdentifier;
+    public String getEventUUID() {
+        return eventUUID;
     }
 }
